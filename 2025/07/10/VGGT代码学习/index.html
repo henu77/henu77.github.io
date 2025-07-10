@@ -204,7 +204,7 @@
 </ul>
 <p>以下是<strong>Aggregator</strong>类的详细流程说明，结合源码实现：</p>
 <hr>
-<h4 id="Aggregator-的前向传播"><a href="#Aggregator-的前向传播" class="headerlink" title="Aggregator 的前向传播"></a>Aggregator 的前向传播</h4><h5 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h5><ul>
+<h3 id="Aggregator-的前向传播"><a href="#Aggregator-的前向传播" class="headerlink" title="Aggregator 的前向传播"></a>Aggregator 的前向传播</h3><h4 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h4><ul>
 <li><code>images</code>：形状 <code>[B, S, 3, H, W]</code>，像素归一化到 [0, 1]，其中<ul>
 <li><code>B</code> 是 batch size，</li>
 <li><code>S</code> 是帧数，</li>
@@ -213,7 +213,7 @@
 </ul>
 </li>
 </ul>
-<h5 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h5><ol>
+<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><ol>
 <li><p><strong>归一化</strong>  </p>
 <ul>
 <li>用 ImageNet 均值和方差对输入图片归一化。</li>
@@ -251,14 +251,49 @@
 </ul>
 </li>
 </ol>
+<h3 id="Camera-Head"><a href="#Camera-Head" class="headerlink" title="Camera Head"></a>Camera Head</h3><p>Camera Head 负责从 Aggregator 输出的 token 表达中，预测每一帧的相机参数（如平移向量、旋转矩阵、视场角等），并采用迭代细化的方式提升预测精度。</p>
 <hr>
-<p>Aggregator 的核心作用如下：</p>
-<ul>
-<li>对输入多帧图片做 patch embedding，拼接特殊 token。</li>
-<li>通过 frame&#x2F;global 交替注意力堆叠，充分融合单帧空间信息和多帧时序&#x2F;全局信息。</li>
-<li>输出多层融合特征，为下游任务（如深度估计、相机位姿等）提供丰富的 token 表达。</li>
+<h3 id="Camera-Head-的前向传播"><a href="#Camera-Head-的前向传播" class="headerlink" title="Camera Head 的前向传播"></a>Camera Head 的前向传播</h3><h4 id="输入-1"><a href="#输入-1" class="headerlink" title="输入"></a>输入</h4><ul>
+<li><code>aggregated_tokens_list</code>：Aggregator 输出的 token 列表，取最后一层用于相机预测。</li>
+<li><code>num_iterations</code>：迭代细化次数（默认 4）。</li>
 </ul>
-<h3 id="Camera-Head"><a href="#Camera-Head" class="headerlink" title="Camera Head"></a>Camera Head</h3>
+<h4 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h4><ol>
+<li><p><strong>提取 camera token</strong>  </p>
+<ul>
+<li>从最后一层 token 中提取 camera token（通常为每帧的第一个 token），形状 <code>[B, S, C]</code>。</li>
+<li>经过 LayerNorm 归一化。</li>
+</ul>
+</li>
+<li><p><strong>迭代细化（<code>trunk_fn</code>）</strong>  </p>
+<ul>
+<li>初始化 pred_pose_enc&#x3D;None。</li>
+<li>进行 num_iterations 次循环，每次细化预测：<ol>
+<li><strong>第一次</strong>：用 empty_pose_tokens 经过 embed_pose 作为输入。</li>
+<li><strong>后续</strong>：用上一次预测的 pose 编码（detach 后）经过 embed_pose 作为输入。</li>
+<li><strong>生成 modulation 参数</strong>：poseLN_modulation 输出 shift、scale、gate。</li>
+<li><strong>自适应归一化和调制</strong>：对 camera token 做 adaln_norm，然后用 shift&#x2F;scale&#x2F;gate 调制（modulate）。</li>
+<li><strong>主干网络处理</strong>：调制后的 token 输入 trunk（Transformer Block）。</li>
+<li><strong>MLP 输出 delta</strong>：trunk_norm 后输入 pose_branch，得到本次的 pose delta。</li>
+<li><strong>累加</strong>：pred_pose_enc &#x3D; pred_pose_enc + delta。</li>
+<li><strong>激活</strong>：对平移向量、四元数、FOV 分别用指定激活函数处理，得到最终 pose 编码。</li>
+<li><strong>保存</strong>：每次迭代的 pose 编码都保存到列表。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p><strong>输出</strong>  </p>
+<ul>
+<li>返回每次迭代的 pose 编码列表。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="关键点说明"><a href="#关键点说明" class="headerlink" title="关键点说明"></a>关键点说明</h4><ul>
+<li><strong>迭代 refinement</strong>：通过多次 refinement，逐步细化相机参数预测，提升精度和稳定性。</li>
+<li><strong>自适应归一化与调制</strong>：借鉴 DiT 等模型，用 shift&#x2F;scale&#x2F;gate 对 token 做调制，增强表达能力。</li>
+<li><strong>激活函数</strong>：对不同类型参数采用不同激活，保证物理合理性（如 FOV 必须为正，四元数归一化等）。</li>
+</ul>
+
   <p><a class="classtest-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0/" rel="tag">代码学习</a>, <a class="classtest-link" href="/tags/%E8%AF%BB%E8%AE%BA%E6%96%87/" rel="tag">读论文</a> — Jul 10, 2025</p>
   
 
