@@ -15,7 +15,7 @@
   
   <link rel="canonical" href="http://example.com/2025/07/10/VGGT%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0/">
   
-  <meta name="description" content="VGGT: Visual Geometry Grounded Transformer （CVPR 2025 Best Paper）Code | Paper | Suplementary 方法介绍 VGGT是一种创新的前馈神经网络，能够直接从单张、少量或上百张视图中推断出场景的全部关键3D属性，包括相">
+  <meta name="description" content="VGGT: Visual Geometry Grounded Transformer （CVPR 2025 Best Paper）Code | Paper | Suplementary 1. 方法介绍 VGGT是一种创新的前馈神经网络，能够直接从单张、少量或上百张视图中推断出场景的全部关键3D属性，">
   
   
   <meta name="author" content="Malong">
@@ -26,14 +26,14 @@
   <meta property="og:type" content="article" />
   <meta property="og:title" content="VGGT代码学习" />
   
-  <meta property="og:description" content="VGGT: Visual Geometry Grounded Transformer （CVPR 2025 Best Paper）Code | Paper | Suplementary 方法介绍 VGGT是一种创新的前馈神经网络，能够直接从单张、少量或上百张视图中推断出场景的全部关键3D属性，包括相">
+  <meta property="og:description" content="VGGT: Visual Geometry Grounded Transformer （CVPR 2025 Best Paper）Code | Paper | Suplementary 1. 方法介绍 VGGT是一种创新的前馈神经网络，能够直接从单张、少量或上百张视图中推断出场景的全部关键3D属性，">
   
   <meta property="og:url" content="http://example.com/2025/07/10/VGGT%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0/" />
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="VGGT代码学习">
   
-  <meta name="twitter:description" content="VGGT: Visual Geometry Grounded Transformer （CVPR 2025 Best Paper）Code | Paper | Suplementary 方法介绍 VGGT是一种创新的前馈神经网络，能够直接从单张、少量或上百张视图中推断出场景的全部关键3D属性，包括相">
+  <meta name="twitter:description" content="VGGT: Visual Geometry Grounded Transformer （CVPR 2025 Best Paper）Code | Paper | Suplementary 1. 方法介绍 VGGT是一种创新的前馈神经网络，能够直接从单张、少量或上百张视图中推断出场景的全部关键3D属性，">
   
   
   
@@ -190,12 +190,12 @@
             <h2>VGGT代码学习</h2>
 
   <h1 id="VGGT-Visual-Geometry-Grounded-Transformer-（CVPR-2025-Best-Paper）"><a href="#VGGT-Visual-Geometry-Grounded-Transformer-（CVPR-2025-Best-Paper）" class="headerlink" title="VGGT: Visual Geometry Grounded Transformer （CVPR 2025 Best Paper）"></a>VGGT: Visual Geometry Grounded Transformer （CVPR 2025 Best Paper）</h1><p><a target="_blank" rel="noopener" href="https://github.com/facebookresearch/vggt">Code</a> | <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content/CVPR2025/papers/Wang_VGGT_Visual_Geometry_Grounded_Transformer_CVPR_2025_paper.pdf">Paper</a> | <a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content/CVPR2025/supplemental/Wang_VGGT_Visual_Geometry_CVPR_2025_supplemental.pdf">Suplementary</a></p>
-<h2 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h2><p><img src="/../images/image-1.png" alt="VGGT架构图"></p>
+<h2 id="1-方法介绍"><a href="#1-方法介绍" class="headerlink" title="1. 方法介绍"></a>1. 方法介绍</h2><p><img src="/../images/image-1.png" alt="VGGT架构图"></p>
 <p>VGGT是一种创新的前馈神经网络，能够直接从单张、少量或上百张视图中推断出场景的全部关键3D属性，包括相机参数、点图、深度图和3D点轨迹。</p>
 <p>如上图所示，VGGT首先利用DINOv2从输入图像中提取Patch Tokens，并为每张图片添加一个随机初始化的Camera Token和Register Tokens。随后，将所有Patch Tokens、Register Tokens和Camera Token拼接，形成完整的输入序列。该序列被送入由Frame Attention和Global Attention组成的 交替注意力（Alternating-Attention，AA） 结构进行处理：Frame Attention专注于单张图像内部的Tokens，Global Attention则实现跨帧特征交互，关注所有图像间的Tokens。</p>
 <p>在相机参数预测方面，模型通过4层额外的自注意力层和一个线性层，输出相机的内参和外参，参数化为旋转四元数、平移向量和视场角，统一为9维向量。对于点图和深度图，模型借助<a target="_blank" rel="noopener" href="https://openaccess.thecvf.com/content/ICCV2021/papers/Ranftl_Vision_Transformers_for_Dense_Prediction_ICCV_2021_paper.pdf">DPT</a>层将特征转换为密集特征图，再通过3×3和1×1卷积层输出深度图&#x2F;点图及其不确定性。3D点轨迹的预测则采用CoTracker2架构，将DPT提取的密集跟踪特征作为输入。具体而言，给定查询图像中的查询点，跟踪头能够预测所有帧中与该查询点对应的点集，实现高效的跨帧点追踪。</p>
-<h2 id="代码学习"><a href="#代码学习" class="headerlink" title="代码学习"></a>代码学习</h2><p><img src="/../images/image-2.png" alt="VGGT类"></p>
-<h3 id="Aggregator"><a href="#Aggregator" class="headerlink" title="Aggregator"></a>Aggregator</h3><p>Aggregator类是VGGT的核心组件，处理输入的多视角图片，提取特征并使用交替注意力来处理这些特征。</p>
+<h2 id="2-代码学习"><a href="#2-代码学习" class="headerlink" title="2. 代码学习"></a>2. 代码学习</h2><p><img src="/../images/image-2.png" alt="VGGT类"></p>
+<h3 id="2-1-Aggregator"><a href="#2-1-Aggregator" class="headerlink" title="2.1 Aggregator"></a>2.1 Aggregator</h3><p>Aggregator类是VGGT的核心组件，处理输入的多视角图片，提取特征并使用交替注意力来处理这些特征。</p>
 <p>该模块可以分为3个主要部分：</p>
 <ul>
 <li>特征提取：使用DINOv2模型从输入图像中提取Patch Tokens，并且添加一个随机初始化的Camera Token和4个Register Token得到全部的特征序列。</li>
@@ -204,7 +204,7 @@
 </ul>
 <p>以下是<strong>Aggregator</strong>类的详细流程说明，结合源码实现：</p>
 <hr>
-<h3 id="Aggregator-的前向传播"><a href="#Aggregator-的前向传播" class="headerlink" title="Aggregator 的前向传播"></a>Aggregator 的前向传播</h3><h4 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h4><ul>
+<h4 id="Aggregator-的前向传播"><a href="#Aggregator-的前向传播" class="headerlink" title="Aggregator 的前向传播"></a>Aggregator 的前向传播</h4><h4 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h4><ul>
 <li><code>images</code>：形状 <code>[B, S, 3, H, W]</code>，像素归一化到 [0, 1]，其中<ul>
 <li><code>B</code> 是 batch size，</li>
 <li><code>S</code> 是帧数，</li>
@@ -251,7 +251,7 @@
 </ul>
 </li>
 </ol>
-<h3 id="Camera-Head"><a href="#Camera-Head" class="headerlink" title="Camera Head"></a>Camera Head</h3><p>Camera Head 负责从 Aggregator 输出的 token 表达中，预测每一帧的相机参数（如平移向量、旋转矩阵、视场角等），并采用迭代细化的方式提升预测精度。</p>
+<h3 id="2-2-Camera-Head"><a href="#2-2-Camera-Head" class="headerlink" title="2.2 Camera Head"></a>2.2 Camera Head</h3><p>Camera Head 负责从 Aggregator 输出的 token 表达中，预测每一帧的相机参数（如平移向量、旋转矩阵、视场角等），并采用迭代细化的方式提升预测精度。</p>
 <hr>
 <h3 id="Camera-Head-的前向传播"><a href="#Camera-Head-的前向传播" class="headerlink" title="Camera Head 的前向传播"></a>Camera Head 的前向传播</h3><h4 id="输入-1"><a href="#输入-1" class="headerlink" title="输入"></a>输入</h4><ul>
 <li><code>aggregated_tokens_list</code>：Aggregator 输出的 token 列表，取最后一层用于相机预测。</li>
@@ -292,6 +292,110 @@
 <li><strong>迭代 refinement</strong>：通过多次 refinement，逐步细化相机参数预测，提升精度和稳定性。</li>
 <li><strong>自适应归一化与调制</strong>：借鉴 DiT 等模型，用 shift&#x2F;scale&#x2F;gate 对 token 做调制，增强表达能力。</li>
 <li><strong>激活函数</strong>：对不同类型参数采用不同激活，保证物理合理性（如 FOV 必须为正，四元数归一化等）。</li>
+</ul>
+<h3 id="2-3-Depth-Head"><a href="#2-3-Depth-Head" class="headerlink" title="2.3 Depth Head"></a>2.3 Depth Head</h3><p>Depth Head用于从 Aggregator 输出的 token 表达中，预测每一帧的深度图和不确定性。</p>
+<hr>
+<h4 id="输入-2"><a href="#输入-2" class="headerlink" title="输入"></a>输入</h4><ul>
+<li><code>aggregated_tokens_list</code>: Aggregator输出的多层token特征列表，每层形状为 <code>[B, S, P + 1 + num_register_tokens, 2*C]</code></li>
+<li><code>images</code>: 原始输入图像，形状为 <code>[B, S, 3, H, W]</code>，像素值范围 [0, 1]</li>
+<li><code>patch_start_idx</code>: patch token起始索引，通常为 <code>1 + num_register_tokens</code></li>
+</ul>
+<h4 id="步骤-2"><a href="#步骤-2" class="headerlink" title="步骤"></a>步骤</h4><h4 id="1-多层特征提取（4个中间层）"><a href="#1-多层特征提取（4个中间层）" class="headerlink" title="1. 多层特征提取（4个中间层）"></a>1. 多层特征提取（4个中间层）</h4><p>对于 <code>intermediate_layer_idx</code> 指定的4个层（默认为第4、11、17、23层），依次进行以下处理：</p>
+<h5 id="1-1-提取patch-token"><a href="#1-1-提取patch-token" class="headerlink" title="1.1 提取patch token"></a>1.1 提取patch token</h5><ul>
+<li>从 <code>aggregated_tokens_list[layer_idx]</code> 中提取patch部分：<code>[:, :, patch_start_idx:]</code></li>
+<li>输入形状：<code>[B, S, P + 1 + num_register_tokens, 2*C]</code></li>
+<li>输出形状：<code>[B, S, P, 2*C]</code></li>
+</ul>
+<h5 id="1-2-重新组织张量"><a href="#1-2-重新组织张量" class="headerlink" title="1.2 重新组织张量"></a>1.2 重新组织张量</h5><ul>
+<li>将batch和序列维度合并：<code>reshape(B * S, P, 2*C)</code></li>
+<li>对token进行LayerNorm归一化</li>
+<li>重排为空间格式：<code>(B*S, 2*C, patch_h, patch_w)</code><ul>
+<li><code>patch_h = H // patch_size</code></li>
+<li><code>patch_w = W // patch_size</code></li>
+</ul>
+</li>
+</ul>
+<h5 id="1-3-通道投影"><a href="#1-3-通道投影" class="headerlink" title="1.3 通道投影"></a>1.3 通道投影</h5><ul>
+<li>通过1x1卷积投影到指定通道数：<code>projects[dpt_idx](x)</code></li>
+<li>输出形状：<code>[B*S, out_channels[dpt_idx], patch_h, patch_w]</code><ul>
+<li>其中 out_channels &#x3D; [256, 512, 1024, 1024]</li>
+</ul>
+</li>
+</ul>
+<h5 id="1-4-UV位置编码"><a href="#1-4-UV位置编码" class="headerlink" title="1.4 UV位置编码"></a>1.4 UV位置编码</h5><ul>
+<li>创建UV网格：<code>[patch_h, patch_w, 2]</code></li>
+<li>转换为位置embedding：<code>[patch_h, patch_w, out_channels[dpt_idx]]</code></li>
+<li>与特征相加：<code>x + pos_embed</code></li>
+</ul>
+<h5 id="1-5-多尺度空间变换"><a href="#1-5-多尺度空间变换" class="headerlink" title="1.5 多尺度空间变换"></a>1.5 多尺度空间变换</h5><p>通过 <code>resize_layers</code> 生成4个不同尺度的特征：</p>
+<ul>
+<li><strong>Layer 0</strong>: ConvTranspose2d(kernel&#x3D;4, stride&#x3D;4) → <code>[B*S, 256, patch_h*4, patch_w*4]</code></li>
+<li><strong>Layer 1</strong>: ConvTranspose2d(kernel&#x3D;2, stride&#x3D;2) → <code>[B*S, 512, patch_h*2, patch_w*2]</code>  </li>
+<li><strong>Layer 2</strong>: Identity() → <code>[B*S, 1024, patch_h, patch_w]</code></li>
+<li><strong>Layer 3</strong>: Conv2d(kernel&#x3D;3, stride&#x3D;2) → <code>[B*S, 1024, patch_h//2, patch_w//2]</code></li>
+</ul>
+<h4 id="2-特征融合（scratch-forward）"><a href="#2-特征融合（scratch-forward）" class="headerlink" title="2. 特征融合（scratch forward）"></a>2. 特征融合（scratch forward）</h4><h5 id="2-1-通道统一"><a href="#2-1-通道统一" class="headerlink" title="2.1 通道统一"></a>2.1 通道统一</h5><p>将4个尺度的特征通过3x3卷积（<strong>纯卷积</strong>）统一到features通道（256）：</p>
+<ul>
+<li>layer_1_rn: <code>[B*S, 256, patch_h*4, patch_w*4]</code></li>
+<li>layer_2_rn: <code>[B*S, 256, patch_h*2, patch_w*2]</code></li>
+<li>layer_3_rn: <code>[B*S, 256, patch_h, patch_w]</code></li>
+<li>layer_4_rn: <code>[B*S, 256, patch_h//2, patch_w//2]</code></li>
+</ul>
+<h5 id="2-2-自底向上融合"><a href="#2-2-自底向上融合" class="headerlink" title="2.2 自底向上融合"></a>2.2 自底向上融合</h5><p>特征融合采用FeatureFusionBlock模块，逐层自底向上整合多尺度特征。该模块支持跳跃连接（skip connection），以增强不同层级特征的交互。</p>
+<ul>
+<li><strong>不使用跳跃连接</strong>：仅输入x1，经过两层带残差的卷积后直接上采样。</li>
+<li><strong>使用跳跃连接</strong>：输入为x1和x2。首先对x1进行两层带残差的卷积处理，然后将x2作为残差项加到x1上。之后再次通过两层带残差的卷积，最后进行上采样操作。</li>
+</ul>
+<p>具体流程如下：</p>
+<ol>
+<li><p><strong>refinenet4</strong>: 处理最小尺度特征，没有跳跃连接</p>
+<ul>
+<li>输入：layer_4_rn <code>[B*S, 256, patch_h//2, patch_w//2]</code></li>
+<li>上采样到layer_3尺度：<code>[B*S, 256, patch_h, patch_w]</code></li>
+</ul>
+</li>
+<li><p><strong>refinenet3</strong>: 融合第3层，</p>
+<ul>
+<li>输入：上步输出 + layer_3_rn</li>
+<li>上采样到layer_2尺度：<code>[B*S, 256, patch_h*2, patch_w*2]</code></li>
+</ul>
+</li>
+<li><p><strong>refinenet2</strong>: 融合第2层</p>
+<ul>
+<li>输入：上步输出 + layer_2_rn  </li>
+<li>上采样到layer_1尺度：<code>[B*S, 256, patch_h*4, patch_w*4]</code></li>
+</ul>
+</li>
+<li><p><strong>refinenet1</strong>: 融合第1层</p>
+<ul>
+<li>输入：上步输出 + layer_1_rn</li>
+<li>最终上采样：<code>[B*S, 256, patch_h*8, patch_w*8]</code></li>
+</ul>
+</li>
+</ol>
+<p>这种自底向上的多层级融合方式，能够充分整合不同语义层次的特征信息，有效提升深度预测的空间细节和全局一致性。</p>
+<h4 id="2-3-第一层输出卷积"><a href="#2-3-第一层输出卷积" class="headerlink" title="2.3 第一层输出卷积"></a>2.3 第一层输出卷积</h4><ul>
+<li><code>output_conv1</code>: 3x3卷积，输出通道减半</li>
+<li>输出形状：<code>[B*S, 128, patch_h*8, patch_w*8]</code></li>
+</ul>
+<h4 id="3-空间分辨率恢复"><a href="#3-空间分辨率恢复" class="headerlink" title="3. 空间分辨率恢复"></a>3. 空间分辨率恢复</h4><ul>
+<li>使用双线性插值上采样到目标分辨率：</li>
+<li>输入：<code>[B*S, 128, patch_h*8, patch_w*8]</code></li>
+<li>输出：<code>[B*S, 128, H//down_ratio, W//down_ratio]</code>（通常down_ratio&#x3D;1）</li>
+</ul>
+<h4 id="4-再次位置编码（可选）"><a href="#4-再次位置编码（可选）" class="headerlink" title="4. 再次位置编码（可选）"></a>4. 再次位置编码（可选）</h4><p>如果启用位置编码，再次添加UV位置编码增强空间感知</p>
+<h4 id="5-最终输出处理"><a href="#5-最终输出处理" class="headerlink" title="5. 最终输出处理"></a>5. 最终输出处理</h4><h5 id="5-1-第二层输出卷积"><a href="#5-1-第二层输出卷积" class="headerlink" title="5.1 第二层输出卷积"></a>5.1 第二层输出卷积</h5><ul>
+<li><code>output_conv2</code>: 包含3x3卷积 + ReLU + 1x1卷积</li>
+<li>输出2个通道：<code>[B*S, 2, H//down_ratio, W//down_ratio]</code></li>
+</ul>
+<h5 id="5-2-激活函数处理"><a href="#5-2-激活函数处理" class="headerlink" title="5.2 激活函数处理"></a>5.2 激活函数处理</h5><p>通过 <code>activate_head</code> 分离并激活两个通道：</p>
+<ul>
+<li><strong>深度通道</strong>: 使用”exp”激活 → <code>[B*S, H//down_ratio, W//down_ratio, 1]</code></li>
+<li><strong>置信度通道</strong>: 使用”expp1”激活 → <code>[B*S, H//down_ratio, W//down_ratio]</code></li>
+</ul>
+<h5 id="5-3-重新组织输出格式"><a href="#5-3-重新组织输出格式" class="headerlink" title="5.3 重新组织输出格式"></a>5.3 重新组织输出格式</h5><ul>
+<li>深度图：<code>view(B, S, H//down_ratio, W//down_ratio, 1)</code></li>
+<li>置信度图：<code>view(B, S, H//down_ratio, W//down_ratio)</code></li>
 </ul>
 
   <p><a class="classtest-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%AD%A6%E4%B9%A0/" rel="tag">代码学习</a>, <a class="classtest-link" href="/tags/%E8%AF%BB%E8%AE%BA%E6%96%87/" rel="tag">读论文</a> — Jul 10, 2025</p>
