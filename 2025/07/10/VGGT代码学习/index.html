@@ -314,6 +314,7 @@
 <li><strong>激活函数</strong>：对不同类型参数采用不同激活，保证物理合理性（如 FOV 必须为正，四元数归一化等）。</li>
 </ul>
 <h3 id="2-3-Depth-Head"><a href="#2-3-Depth-Head" class="headerlink" title="2.3 Depth Head"></a>2.3 Depth Head</h3><p>Depth Head用于从 Aggregator 输出的 token 表达中，预测每一帧的深度图和不确定性。</p>
+<p><img src="/../images/Depth_Head.svg" alt="Depth Head"></p>
 <hr>
 <h4 id="输入-2"><a href="#输入-2" class="headerlink" title="输入"></a>输入</h4><ul>
 <li><code>aggregated_tokens_list</code>: Aggregator输出的多层token特征列表，每层形状为 <code>[B, S, P + 1 + num_register_tokens, 2*C]</code></li>
