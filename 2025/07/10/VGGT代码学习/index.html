@@ -334,7 +334,8 @@
 <li><strong>Layer 2</strong>: Identity() → <code>[B*S, 1024, patch_h, patch_w]</code></li>
 <li><strong>Layer 3</strong>: Conv2d(kernel&#x3D;3, stride&#x3D;2) → <code>[B*S, 1024, patch_h//2, patch_w//2]</code></li>
 </ul>
-<h4 id="2-特征融合（scratch-forward）"><a href="#2-特征融合（scratch-forward）" class="headerlink" title="2. 特征融合（scratch forward）"></a>2. 特征融合（scratch forward）</h4><h5 id="2-1-通道统一"><a href="#2-1-通道统一" class="headerlink" title="2.1 通道统一"></a>2.1 通道统一</h5><p>将4个尺度的特征通过3x3卷积（<strong>纯卷积</strong>）统一到features通道（256）：</p>
+<h4 id="2-特征融合（scratch-forward）"><a href="#2-特征融合（scratch-forward）" class="headerlink" title="2. 特征融合（scratch forward）"></a>2. 特征融合（scratch forward）</h4><p>scratch是一个类UNet的特征融合模块，用于融合上一步产生的多尺度特征。它通过自底向上的方式逐层融合不同尺度的特征，增强模型对空间细节的捕捉能力。</p>
+<h5 id="2-1-通道统一"><a href="#2-1-通道统一" class="headerlink" title="2.1 通道统一"></a>2.1 通道统一</h5><p>将4个尺度的特征通过3x3卷积（<strong>纯卷积</strong>）统一到features通道（256）：</p>
 <ul>
 <li>layer_1_rn: <code>[B*S, 256, patch_h*4, patch_w*4]</code></li>
 <li>layer_2_rn: <code>[B*S, 256, patch_h*2, patch_w*2]</code></li>
@@ -374,7 +375,7 @@
 </li>
 </ol>
 <p>这种自底向上的多层级融合方式，能够充分整合不同语义层次的特征信息，有效提升深度预测的空间细节和全局一致性。</p>
-<h4 id="2-3-第一层输出卷积"><a href="#2-3-第一层输出卷积" class="headerlink" title="2.3 第一层输出卷积"></a>2.3 第一层输出卷积</h4><ul>
+<h4 id="2-3-输出层1"><a href="#2-3-输出层1" class="headerlink" title="2.3 输出层1"></a>2.3 输出层1</h4><ul>
 <li><code>output_conv1</code>: 3x3卷积，输出通道减半</li>
 <li>输出形状：<code>[B*S, 128, patch_h*8, patch_w*8]</code></li>
 </ul>
@@ -383,8 +384,8 @@
 <li>输入：<code>[B*S, 128, patch_h*8, patch_w*8]</code></li>
 <li>输出：<code>[B*S, 128, H//down_ratio, W//down_ratio]</code>（通常down_ratio&#x3D;1）</li>
 </ul>
-<h4 id="4-再次位置编码（可选）"><a href="#4-再次位置编码（可选）" class="headerlink" title="4. 再次位置编码（可选）"></a>4. 再次位置编码（可选）</h4><p>如果启用位置编码，再次添加UV位置编码增强空间感知</p>
-<h4 id="5-最终输出处理"><a href="#5-最终输出处理" class="headerlink" title="5. 最终输出处理"></a>5. 最终输出处理</h4><h5 id="5-1-第二层输出卷积"><a href="#5-1-第二层输出卷积" class="headerlink" title="5.1 第二层输出卷积"></a>5.1 第二层输出卷积</h5><ul>
+<h4 id="4-再次位置编码"><a href="#4-再次位置编码" class="headerlink" title="4. 再次位置编码"></a>4. 再次位置编码</h4><p>再次添加UV位置编码增强空间感知</p>
+<h4 id="5-最终输出处理"><a href="#5-最终输出处理" class="headerlink" title="5. 最终输出处理"></a>5. 最终输出处理</h4><h5 id="5-1-输出层2"><a href="#5-1-输出层2" class="headerlink" title="5.1 输出层2"></a>5.1 输出层2</h5><ul>
 <li><code>output_conv2</code>: 包含3x3卷积 + ReLU + 1x1卷积</li>
 <li>输出2个通道：<code>[B*S, 2, H//down_ratio, W//down_ratio]</code></li>
 </ul>
