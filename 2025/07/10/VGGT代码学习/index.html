@@ -251,6 +251,7 @@
 </li>
 </ul>
 <h3 id="2-2-Camera-Head"><a href="#2-2-Camera-Head" class="headerlink" title="2.2 Camera Head"></a>2.2 Camera Head</h3><p>Camera Head 负责从 Aggregator 输出的 token 表达中，预测每一帧的相机参数（如平移向量、旋转矩阵、视场角等），并采用迭代细化的方式提升预测精度。</p>
+<p><img src="/../images/Camera_Head.svg" alt="Camera Head"></p>
 <hr>
 <h4 id="输入-1"><a href="#输入-1" class="headerlink" title="输入"></a>输入</h4><ul>
 <li><code>aggregated_tokens_list</code>：Aggregator 输出的 token 列表，取最后一层用于相机预测。</li>
