@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Minima -->
+  <!-- Hexo theme created by @adisaktijrs -->
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+
+  
+  <title>大模型技术学习</title>
+  
+  <link rel="canonical" href="http://example.com/2025/09/08/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/">
+  
+  <meta name="description" content="大模型技术学习LLaMA FactoryLLaMA Factory 是一个简单易用且高效的大型语言模型（Large Language Model）训练与微调平台。通过 LLaMA Factory，可以在无需编写任何代码的前提下，在本地完成上百种预训练模型的微调，框架特性包括：  模型种类：LLaMA">
+  
+  
+  <meta name="author" content="Malong">
+  
+  
+  
+  <meta property="og:site_name" content="Malong&#39;s Blog" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="大模型技术学习" />
+  
+  <meta property="og:description" content="大模型技术学习LLaMA FactoryLLaMA Factory 是一个简单易用且高效的大型语言模型（Large Language Model）训练与微调平台。通过 LLaMA Factory，可以在无需编写任何代码的前提下，在本地完成上百种预训练模型的微调，框架特性包括：  模型种类：LLaMA">
+  
+  <meta property="og:url" content="http://example.com/2025/09/08/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="大模型技术学习">
+  
+  <meta name="twitter:description" content="大模型技术学习LLaMA FactoryLLaMA Factory 是一个简单易用且高效的大型语言模型（Large Language Model）训练与微调平台。通过 LLaMA Factory，可以在无需编写任何代码的前提下，在本地完成上百种预训练模型的微调，框架特性包括：  模型种类：LLaMA">
+  
+  
+  
+  
+  <meta name="twitter:url" content="http://example.com/2025/09/08/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/" />
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Preload fonts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="preload" href="/fonts/dm-serif-display-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-v2-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+<link rel="stylesheet" href="/css/normalize.css">
+
+  
+<link rel="stylesheet" href="/css/skeleton.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+<link rel="stylesheet" href="/css/prism-dark.css">
+
+  
+<link rel="stylesheet" href="/css/prism-line-numbers.css">
+
+  <!-- User css -->
+  
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+  <!-- Custom Theme Color Style
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <style>
+  a:not(.icon) {
+    text-decoration-color: #0FA0CE;
+    background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 50%,
+      #0FA0CE 50%
+    );
+  }
+  blockquote {
+    border-left: 8px solid #0FA0CE;
+  }
+  .nanobar .bar {
+    background: #0FA0CE;
+  }
+  .button.button-primary:hover,
+  button.button-primary:hover,
+  input[type="submit"].button-primary:hover,
+  input[type="reset"].button-primary:hover,
+  input[type="button"].button-primary:hover,
+  .button.button-primary:focus,
+  button.button-primary:focus,
+  input[type="submit"].button-primary:focus,
+  input[type="reset"].button-primary:focus,
+  input[type="button"].button-primary:focus {
+    background-color: #0FA0CE;
+    border-color: #0FA0CE;
+  }
+  input[type="email"]:focus,
+  input[type="number"]:focus,
+  input[type="search"]:focus,
+  input[type="text"]:focus,
+  input[type="tel"]:focus,
+  input[type="url"]:focus,
+  input[type="password"]:focus,
+  textarea:focus,
+  select:focus {
+    border: 1px solid #0FA0CE;
+  }
+</style>
+
+  <!-- Google Analytics (With Privacy Settings On)
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+
+  
+  <script src="/js/pic.min.js" defer></script>
+  
+
+  
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div>
+
+        <div class="row">
+  <div class="two columns" style="max-width: 50px">
+    <h1 class="mt-2 mode">
+      <div onclick=setDarkMode(true) id="darkBtn">🌑</div>
+      <div onclick=setDarkMode(false) id="lightBtn" class=hidden>☀️</div>
+      <script >
+        if (localStorage.getItem('preferredTheme') == 'dark') {
+          setDarkMode(true)
+        }
+        function setDarkMode(isDark) {
+          var darkBtn = document.getElementById('darkBtn')
+          var lightBtn = document.getElementById('lightBtn')
+          if (isDark) {
+            lightBtn.style.display = "block"
+            darkBtn.style.display = "none"
+            localStorage.setItem('preferredTheme', 'dark');
+          } else {
+            lightBtn.style.display = "none"
+            darkBtn.style.display = "block"
+            localStorage.removeItem('preferredTheme');
+          }
+          document.body.classList.toggle("darkmode");
+        }
+      </script>
+    </h1>
+  </div>
+
+  <div class="six columns ml-1">
+    <h1 class="mt-2">
+      Malong&#39;s Blog
+    </h1>
+  </div>
+
+  <div class="twelve columns">
+    <div class="row">
+      <div class="nine columns left">
+        <a href="/">Home</a>
+        
+          
+          <a href="/Works" class="ml">Works</a>
+          
+        
+        
+          
+            <a href="mailto:1289596706@qq.com" target="_blank" class="ml">Email</a>
+          
+        
+      </div>
+    </div>
+    <hr style="margin-bottom: 2.6rem">
+  </div>
+</div>
+
+        <div class="trans">
+            <h2>大模型技术学习</h2>
+
+  <h1 id="大模型技术学习"><a href="#大模型技术学习" class="headerlink" title="大模型技术学习"></a>大模型技术学习</h1><h2 id="LLaMA-Factory"><a href="#LLaMA-Factory" class="headerlink" title="LLaMA Factory"></a>LLaMA Factory</h2><p>LLaMA Factory 是一个简单易用且高效的大型语言模型（Large Language Model）训练与微调平台。通过 LLaMA Factory，可以在无需编写任何代码的前提下，在本地完成上百种预训练模型的微调，框架特性包括：</p>
+<ul>
+<li><p>模型种类：LLaMA、LLaVA、Mistral、Mixtral-MoE、Qwen、Yi、Gemma、Baichuan、ChatGLM、Phi 等等。</p>
+</li>
+<li><p>训练算法：（增量）预训练、（多模态）指令监督微调、奖励模型训练、PPO 训练、DPO 训练、KTO 训练、ORPO 训练等等。</p>
+</li>
+<li><p>运算精度：16 比特全参数微调、冻结微调、LoRA 微调和基于 AQLM&#x2F;AWQ&#x2F;GPTQ&#x2F;LLM.int8&#x2F;HQQ&#x2F;EETQ 的 2&#x2F;3&#x2F;4&#x2F;5&#x2F;6&#x2F;8 比特 QLoRA 微调。</p>
+</li>
+<li><p>优化算法：GaLore、BAdam、DoRA、LongLoRA、LLaMA Pro、Mixture-of-Depths、LoRA+、LoftQ 和 PiSSA。</p>
+</li>
+<li><p>加速算子：FlashAttention-2 和 Unsloth。</p>
+</li>
+<li><p>推理引擎：Transformers 和 vLLM。</p>
+</li>
+<li><p>实验监控：LlamaBoard、TensorBoard、Wandb、MLflow、SwanLab 等等。</p>
+</li>
+</ul>
+<h3 id="LLaMA-Factory-的安装"><a href="#LLaMA-Factory-的安装" class="headerlink" title="LLaMA Factory 的安装"></a>LLaMA Factory 的安装</h3><p>推荐根据<a target="_blank" rel="noopener" href="https://llamafactory.readthedocs.io/zh-cn/latest/getting_started/installation.html">官网</a>的安装步骤进行安装，最好是Linux环境可以减少很多麻烦。</p>
+<p><strong>安装</strong></p>
+<p>运行以下指令以安装 LLaMA-Factory 及其依赖:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth 1 https://github.com/hiyouga/LLaMA-Factory.git</span><br><span class="line"><span class="built_in">cd</span> LLaMA-Factory</span><br><span class="line">pip install -e <span class="string">&quot;.[torch,metrics]&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果出现环境冲突，请尝试使用 <code>pip install --no-deps -e .</code> 解决。</p>
+<p><strong>校验</strong></p>
+<p>完成安装后，可以通过 <code>llamafactory-cli version</code> 命令来验证安装是否成功。如果显示版本号，则表示安装成功。</p>
+<h3 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h3><p>LLaMA Factory 支持 <code>Alpaca</code> 格式和 <code>ShareGPT</code> 格式的数据集。 <code>dataset_info.json</code> 包含了所有经过预处理的<strong>本地数据集</strong>以及<strong>在线数据集</strong>。如果您希望使用自定义数据集，请<strong>务必</strong>在 <code>dataset_info.json</code> 文件中添加对数据集及其<strong>内容的定义</strong>。</p>
+<h4 id="Alpaca-格式"><a href="#Alpaca-格式" class="headerlink" title="Alpaca 格式"></a>Alpaca 格式</h4><p>Alpaca 格式是一种常见的数据集格式，最初由斯坦福大学的 Stanford Alpaca 项目提出。针对不同任务有不同的格式如：指令监督微调数据集、预训练、偏好训练等。</p>
+<h5 id="指令监督微调数据集"><a href="#指令监督微调数据集" class="headerlink" title="指令监督微调数据集"></a>指令监督微调数据集</h5><p>指令监督微调(Instruct Tuning)通过让模型学习详细的指令以及对应的回答来优化模型在特定指令下的表现。<code>instruction</code> 列对应的内容为人类指令， <code>input</code> 列对应的内容为人类输入， <code>output</code> 列对应的内容为模型回答。下面是一个例子:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;instruction&quot;</span><span class="punctuation">:</span> <span class="string">&quot;请翻译以下英文句子为中文。&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="string">&quot;The quick brown fox jumps over the lazy dog.&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;output&quot;</span><span class="punctuation">:</span> <span class="string">&quot;敏捷的棕色狐狸跳过了懒狗。&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>在进行指令监督微调时，<code>instruction</code> 列对应的内容会与 <code>input</code> 列对应的内容<strong>拼接</strong>后作为最终的人类输入，即人类输入为 <code>instruction\ninput</code>。而 <code>output</code> 列对应的内容为模型回答。 在上面的例子中，人类的最终输入是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">计算这些物品的总费用。</span><br><span class="line">输入：汽车 - $3000，衣服 - $100，书 - $20。</span><br></pre></td></tr></table></figure>
+<p>模型的回答是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">汽车、衣服和书的总费用为 $3000 + $100 + $20 = $3120。</span><br></pre></td></tr></table></figure>
+
+<p>除了 <code>instruction</code>、<code>input</code> 和 <code>output</code> 三列外，指令监督微调格式还支持 <code>system</code> 列和 <code>history</code> 列。 <code>system</code> 列对应的内容为系统提示， <code>history</code> 列对应的内容为对话历史。完整的指令监督微调数据集<strong>格式要求</strong>如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;instruction&quot;</span><span class="punctuation">:</span> <span class="string">&quot;人类指令（必填）&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="string">&quot;人类输入（选填）&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;output&quot;</span><span class="punctuation">:</span> <span class="string">&quot;模型回答（必填）&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;system&quot;</span><span class="punctuation">:</span> <span class="string">&quot;系统提示词（选填）&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;history&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;第一轮指令（选填）&quot;</span><span class="punctuation">,</span> <span class="string">&quot;第一轮回答（选填）&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;第二轮指令（选填）&quot;</span><span class="punctuation">,</span> <span class="string">&quot;第二轮回答（选填）&quot;</span><span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>下面提供一个 <code>alpaca</code> 格式<strong>多轮</strong>对话的例子，对于单轮对话只需省略 <code>history</code> 列即可。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;instruction&quot;</span><span class="punctuation">:</span> <span class="string">&quot;请翻译以下英文句子为中文。&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="string">&quot;The quick brown fox jumps over the lazy dog.&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;output&quot;</span><span class="punctuation">:</span> <span class="string">&quot;敏捷的棕色狐狸跳过了懒狗。&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;system&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你是一个专业的翻译助手。&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;history&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;你好！&quot;</span><span class="punctuation">,</span> <span class="string">&quot;你好！有什么我可以帮你的吗？&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">[</span><span class="string">&quot;请帮我翻译一句话。&quot;</span><span class="punctuation">,</span> <span class="string">&quot;当然，请告诉我你想翻译的句子。&quot;</span><span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>对于上述格式的数据，<code>dataset_info.json</code> 中的<strong>数据集描述</strong>应为：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;数据集名称&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;file_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;data.json&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;columns&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;prompt&quot;</span><span class="punctuation">:</span> <span class="string">&quot;instruction&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;query&quot;</span><span class="punctuation">:</span> <span class="string">&quot;input&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;response&quot;</span><span class="punctuation">:</span> <span class="string">&quot;output&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;system&quot;</span><span class="punctuation">:</span> <span class="string">&quot;system&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;history&quot;</span><span class="punctuation">:</span> <span class="string">&quot;history&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+<h5 id="预训练"><a href="#预训练" class="headerlink" title="预训练"></a>预训练</h5><p>大语言模型通过学习未被标记的文本进行预训练，从而学习语言的表征。通常，预训练数据集从互联网上获得，因为互联网上提供了大量的不同领域的文本信息，有助于提升模型的泛化能力。 预训练数据集文本描述格式如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">  <span class="punctuation">&#123;</span><span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;document&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="punctuation">&#123;</span><span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;document&quot;</span><span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+<p>在预训练时，只有 <code>text</code> 列中的<strong>内容</strong>（即document）会用于模型学习。</p>
+<p>对于上述格式的数据， <code>dataset_info.json</code> 中的 <strong>数据集描述</strong> 应为：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;数据集名称&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;file_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;data.json&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;columns&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;prompt&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h5 id="偏好训练"><a href="#偏好训练" class="headerlink" title="偏好训练"></a>偏好训练</h5><h5 id="KTO"><a href="#KTO" class="headerlink" title="KTO"></a>KTO</h5><h5 id="多模态"><a href="#多模态" class="headerlink" title="多模态"></a>多模态</h5><h4 id="ShareGPT-格式"><a href="#ShareGPT-格式" class="headerlink" title="ShareGPT 格式"></a>ShareGPT 格式</h4>
+  <p> — Sep 8, 2025</p>
+  
+
+
+        </div>
+        <div class="row mt-2">
+  <h3>Search</h3>
+  <div><input id="search-text" title="search" class="search-text" type="text" placeholder="search......"></div>
+  <div style="margin-top: 1.5rem;">
+    <ul id="result"></ul>
+  </div>
+</div>
+        <div class="row mt-2">
+  
+    <div class="eight columns">
+      <p id="madewith">Made with ❤ and
+        <a class="footer-link icon" href="https://hexo.io" target="_blank" style="text-decoration: none;" rel="noreferrer" aria-label="Hexo.io">
+        <svg class="hexo svg-hov" width="14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Hexo.js</title><path d="M12 .007L1.57 6.056V18.05L12 23.995l10.43-6.049V5.952L12 .007zm4.798 17.105l-.939.521-.939-.521V12.94H9.08v4.172l-.94.521-.938-.521V6.89l.939-.521.939.521v4.172h5.84V6.89l.94-.521.938.521v10.222z"/></svg>
+        </a>
+        
+    </div>
+
+    <!-- Sepcial thanks to https://simpleicons.org/ for the icons -->
+    <div class="four columns mb-3 posisi" >
+      
+      <a class="ml-0 footer-link icon" href="https://github.com/henu77" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="GitHub">
+        <svg class="github svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      
+
+      
+
+      
+
+      
+
+      
+
+    </div>
+  
+</div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <script src="/js/nanobar.min.js"></script>
+
+  <script>
+    var options = {
+      classname: 'nanobar',
+      id: 'myNanobar'
+    };
+    var nanobar = new Nanobar(options);
+    nanobar.go(30);
+    nanobar.go(76);
+    nanobar.go(100);
+  </script>
+
+</body>
+
+</html>
